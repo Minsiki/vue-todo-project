@@ -1,8 +1,8 @@
 <template>
 <div class="todoapp">
   <TodoHeader></TodoHeader>
-  <TodoInput></TodoInput>
-  <ToodoList></ToodoList>
+  <TodoInput @createTodoItem="createTodoItem"></TodoInput>
+  <ToodoList @deleteTodoItem="deleteTodoItem" ref="todo_list"></ToodoList>
   <TodoFooter></TodoFooter>
 </div>
 </template>
@@ -19,6 +19,16 @@ export default {
     TodoInput,
     ToodoList,
     TodoFooter
+  },
+  methods: {
+    async createTodoItem(data) {
+      await this.$createTodoItem(data);
+      this.$refs.todo_list.getTodoList();
+    },
+    async deleteTodoItem(data) {
+      await this.$deleteTodoItem(data);
+      this.$refs.todo_list.getTodoList();
+    }
   }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
 <div class="count-container">
-    <span class="todo-count">총 <strong>{{totalCount}}</strong> 개</span>
+    <span class="todo-count">총 <strong>{{count}}</strong> 개</span>
     <ul class="filters">
     <li>
         <a class="all selected" href="#all">전체보기</a>
@@ -19,10 +19,13 @@ export default {
     name: '', 
     components: {}, 
     data() {
+        return {
+            count: this.$getTodoList().length,
+        }
     },
-    computed: {
-        totalCount() {
-            return this.$store.getters.getTotalCount;
+    methods: {
+        getCount() {
+            this.count = this.$getTodoList().length;
         }
     }
 }

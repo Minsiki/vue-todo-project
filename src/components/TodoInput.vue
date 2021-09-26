@@ -19,16 +19,18 @@ export default {
     },
     methods: {
         inputTodoItem() {
-            if(this.checkVale()) {
+            if(this.checkValue()) {
                 let todoList = localStorage.getItem('todoList');
                 if(todoList === null) todoList = [];
-                this.$createTodoItem({
+                
+                this.$emit("createTodoItem", {
                     title: this.todoTitle,
                     isComplete: false
                 });
+                this.todoTitle = "";
             }            
         },
-        checkVale() {
+        checkValue() {
             let returnValue = true;
             
             if(this.todoTitle.length === 0) {
@@ -39,7 +41,6 @@ export default {
             return returnValue;
         }
     },
-    computed: {
-    }
+    computed: {}
 }
 </script>

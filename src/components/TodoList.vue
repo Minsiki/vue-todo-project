@@ -2,9 +2,11 @@
 <main>
     <input class="toggle-all" type="checkbox"/>
     <div class="todo-list">
-        <TodoItem :key="index" v-for="(data, index) in todoList" :data="data"></TodoItem>
+        <TodoItem :key="index"
+        v-for="(data, index) in todoList"
+        :data="data"
+        @deleteTodoItem="deleteTodoItem"></TodoItem>
     </div>
-    
 </main>
 </template>
 <script>
@@ -17,10 +19,13 @@ export default {
             todoList: this.$getTodoList(),
         };
     },
-    computed: {
-        // getTodoList() {
-        //     return this.$store.getters.getTodoList;
-        // }
+    methods: {
+        getTodoList() {
+            this.todoList = this.$getTodoList();
+        },
+        deleteTodoItem(data) {
+            this.$emit("deleteTodoItem", data);
+        }
     }
 }
 </script>

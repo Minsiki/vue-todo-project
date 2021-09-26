@@ -3,9 +3,9 @@
     <div class="view" v-show="!editing">
         <input class="toggle" type="checkbox" v-model="isComplete"/>
         <label class="label" @dblclick="editItem">{{data.title}}</label>
-        <button class="destroy"></button>
+        <button class="destroy" @click="deleteTodoItem"></button>
     </div>
-    <input class="edit" v-show="editing" v-model="editTitle" @keyup="changedTitle"/>
+    <input class="edit" v-show="editing" v-model="title" @keyup="changeTitle"/>
     
 </li>
 </template>
@@ -14,7 +14,8 @@ export default {
     name: '', 
     data() {
         return {
-            editing: false
+            editing: false,
+            title: ""
         };
     },
     props: {
@@ -26,8 +27,9 @@ export default {
     methods: {
         editItem() {
             this.editing = true;
+            this.title = this.data.title;
         },
-        changedTitle(event) {
+        changeTitle(event) {
             console.log(event.key);
             if(event.key === "Escape") {
                 this.editing = false;
@@ -38,6 +40,9 @@ export default {
                     title: this.editTitle
                 })
             }
+        },
+        deleteTodoItem() {
+            this.$emit("deleteTodoItem", this.data);
         }
     },
     computed: {
