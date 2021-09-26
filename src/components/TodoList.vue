@@ -2,7 +2,7 @@
 <main>
     <input class="toggle-all" type="checkbox"/>
     <div class="todo-list">
-        <TodoItem :key="index" v-for="(data, index) in getTodoList" :title="data"></TodoItem>
+        <TodoItem :key="index" v-for="(data, index) in todoList" :data="data"></TodoItem>
     </div>
     
 </main>
@@ -14,13 +14,13 @@ export default {
     components: {TodoItem}, 
     data() {
         return {
-            todoList: []
+            todoList: this.$getTodoList(),
         };
     },
     computed: {
-        getTodoList() {
-            return this.$store.getters.getTodoList;
-        }
+        // getTodoList() {
+        //     return this.$store.getters.getTodoList;
+        // }
     }
 }
 </script>

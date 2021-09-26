@@ -20,8 +20,12 @@ export default {
     methods: {
         inputTodoItem() {
             if(this.checkVale()) {
-                this.$store.commit('addTodoList', {title: this.todoTitle});
-                this.todoTitle = "";
+                let todoList = localStorage.getItem('todoList');
+                if(todoList === null) todoList = [];
+                this.$createTodoItem({
+                    title: this.todoTitle,
+                    isComplete: false
+                });
             }            
         },
         checkVale() {

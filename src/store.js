@@ -12,14 +12,26 @@ const store = createStore({
         },
         getTotalCount: (state) => {
             return state.todoList.length;
-        }
+        },
 
     },
     mutations: {
-        addTodoList(state, palyload) {
-            state.todoList.push(palyload.title);
+        addTodoList(state, payload) {
+            state.todoList.push({
+                code: payload.code,
+                title: payload.title,
+                isComplete: payload.isComplete
+            });
+        },
+        updateTodoItem(state, payload) {
+            console.log(payload);
+            let findIdx = state.todoList.find((item) => {
+                return item.code === payload.code;
+            })
+
+            console.log(findIdx);
         }
-    }
+    },
 })
 
 export default store;
