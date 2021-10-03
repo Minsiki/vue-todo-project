@@ -2,10 +2,13 @@
 <main>
     <input class="toggle-all" type="checkbox"/>
     <div class="todo-list">
-        <TodoItem :key="index"
-        v-for="(data, index) in todoList"
-        :data="data"
-        @deleteTodoItem="deleteTodoItem"></TodoItem>
+        <TodoItem 
+            :key="data"
+            v-for="(data) in todoList"
+            :data="data"
+            @updateTodoItem="updateTodoItem"
+            @updateTodoItemComplete="updateTodoItemComplete"
+            @deleteTodoItem="deleteTodoItem"></TodoItem>
     </div>
 </main>
 </template>
@@ -23,9 +26,15 @@ export default {
         getTodoList() {
             this.todoList = this.$getTodoList();
         },
+        updateTodoItem(data) {
+            this.$emit("updateTodoItem", data);
+        },
+        updateTodoItemComplete(data) {
+            this.$emit("updateTodoItemComplete", data);
+        },
         deleteTodoItem(data) {
             this.$emit("deleteTodoItem", data);
-        }
+        },
     }
 }
 </script>

@@ -1,11 +1,11 @@
 <template>
 <li v-bind:class="{'editing': editing}">
     <div class="view" v-show="!editing">
-        <input class="toggle" type="checkbox" v-model="isComplete"/>
+        <input class="toggle" type="checkbox" v-model="isComplete" @change="changeComplete"/>
         <label class="label" @dblclick="editItem">{{data.title}}</label>
         <button class="destroy" @click="deleteTodoItem"></button>
     </div>
-    <input class="edit" v-show="editing" v-model="title" @keyup="changeTitle"/>
+    <input class="edit" v-show="editing" v-model="title" @keyup.enter="updateTitle" @keyup.escape="cancelEdit"/>
     
 </li>
 </template>
@@ -15,6 +15,7 @@ export default {
     data() {
         return {
             editing: false,
+            isComplete: this.data.isComplete,
             title: ""
         };
     },
@@ -29,29 +30,28 @@ export default {
             this.editing = true;
             this.title = this.data.title;
         },
-        changeTitle(event) {
-            console.log(event.key);
-            if(event.key === "Escape") {
-                this.editing = false;
-            } else if(event.key === "Enter") {
-                
-                this.$store.commit('updateTodoItem', {
-                    target: this.data,
-                    title: this.editTitle
-                })
-            }
+        updateTitle() {
+            this.$emit('updateTodoItem', {
+                target: this.data,
+                title: this.title
+            });
+            this.editing = false;
+        },
+        cancelEdit() {
+            this.editing = false;
         },
         deleteTodoItem() {
             this.$emit("deleteTodoItem", this.data);
+        },
+        changeComplete() {
+            this.$emit('updateTodoItemComplete', {
+                target: this.data,
+                isComplete: this.isComplete
+            })
+        },
+        getComplete() {
+            return this.isComplete;
         }
     },
-    computed: {
-        isComplete() {
-            return this.data.isComplete;
-        },
-        editTitle() {
-            return this.data.editTitle;
-        }
-    }
 }
 </script>

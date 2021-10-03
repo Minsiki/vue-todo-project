@@ -2,8 +2,15 @@
 <div class="todoapp">
   <TodoHeader></TodoHeader>
   <TodoInput @createTodoItem="createTodoItem"></TodoInput>
-  <ToodoList @deleteTodoItem="deleteTodoItem" ref="todo_list"></ToodoList>
-  <TodoFooter></TodoFooter>
+  <ToodoList
+    ref="todo_list"
+    @deleteTodoItem="deleteTodoItem"
+    @updateTodoItem="updateTodoItem"
+    @updateTodoItemComplete="updateTodoItemComplete"></ToodoList>
+  <TodoFooter 
+    ref="todo_footer"
+    @clickFilter="clickFilter"
+    ></TodoFooter>
 </div>
 </template>
 
@@ -23,11 +30,27 @@ export default {
   methods: {
     async createTodoItem(data) {
       await this.$createTodoItem(data);
-      this.$refs.todo_list.getTodoList();
+      this.setTodoInfo();
     },
     async deleteTodoItem(data) {
       await this.$deleteTodoItem(data);
+      this.setTodoInfo();
+    },
+    async updateTodoItem(data) {
+      await this.$updateTodoItem(data);
+      this.setTodoInfo();
+    },
+    async updateTodoItemComplete(data) {
+      await this.$updateTodoItemComplete(data);
+      this.setTodoInfo();
+    },
+    async clickFilter(data) {
+      this.$store.commit("setFilter", data);
+      this.setTodoInfo();
+    },
+    setTodoInfo() {
       this.$refs.todo_list.getTodoList();
+      this.$refs.todo_footer.getCount();
     }
   }
 }
